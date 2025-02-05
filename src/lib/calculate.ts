@@ -4,7 +4,7 @@ export const getPace = (
   totalDistanceInMeter: number,
   timeUsedInSec: number
 ): Pace => {
-  if (timeUsedInSec === 0) {
+  if (timeUsedInSec === 0 || totalDistanceInMeter === 0) {
     return {
       speedMs: 0,
       pace: "00:00",
@@ -29,7 +29,6 @@ export const getTimeUsedDistance = (distanceInMeter: number, speedMs: number) =>
 
 export function convertSpeedToPace(speedMs: number): string {
   if (speedMs <= 0) "--:--";
-
   const totalSecondsPerKm = 1000 / speedMs;
   const minutes = Math.floor(totalSecondsPerKm / 60);
   const seconds = Math.round(totalSecondsPerKm % 60);
