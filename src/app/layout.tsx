@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bislet Calculator",
+  title: "Bislett Calculator",
   description: "Distance Calculator for the bislet stadium",
 };
 
