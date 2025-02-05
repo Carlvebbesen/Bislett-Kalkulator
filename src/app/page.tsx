@@ -15,7 +15,6 @@ export default function Home() {
   const [time, setTime] = useState(0);
 
   const pace = getPace(distance, time);
-  console.log(pace);
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Distance Calculator</h1>
