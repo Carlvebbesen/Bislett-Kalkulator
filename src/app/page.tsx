@@ -3,19 +3,19 @@ import { BisletInput } from "@/components/bislet-input";
 import { DistanceTable } from "@/components/distance-table";
 import InfoBox from "@/components/info-box";
 import Stats from "@/components/stats";
+import TimeInput from "@/components/time-input";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getPace, convertHMSToSeconds } from "@/lib/calculate";
+import { getPace } from "@/lib/calculate";
+import { bisletRound } from "@/lib/constants";
 import { useState } from "react";
 
 export default function Home() {
-  const [distance, setDistance] = useState<number>(0);
-  const [time, setTime] = useState("00:00:00");
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTime(e.target.value);
-  };
+  const [distance, setDistance] = useState<number>(bisletRound);
+  const [time, setTime] = useState(0);
 
-  const pace = getPace(distance, convertHMSToSeconds(time));
+  const pace = getPace(distance, time);
+  console.log(pace);
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Distance Calculator</h1>
@@ -37,6 +37,7 @@ export default function Home() {
             <Input
               type="number"
               className="w-60 text-center"
+              step={"1"}
               value={distance}
               onChange={(e) => {
                 const dist = parseInt(e.target.value, 10);
@@ -45,12 +46,8 @@ export default function Home() {
             />
           </TabsContent>
         </Tabs>
-        <Input
-          type="time"
-          step="1"
-          value={time}
-          onChange={handleTimeChange}
-          className="w-60 justify-center"
+        <TimeInput
+          onChange={(minutes, seconds) => setTime(minutes * 60 + seconds)}
         />
         <Stats distance={distance} pace={pace} />
         <DistanceTable {...pace} />

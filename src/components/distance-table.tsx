@@ -1,3 +1,5 @@
+"use client";
+
 import { getTimeUsedDistance } from "@/lib/calculate";
 import { distances } from "@/lib/constants";
 import { Pace } from "@/types";

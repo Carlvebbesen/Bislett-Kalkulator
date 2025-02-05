@@ -28,7 +28,7 @@ export const getTimeUsedDistance = (distanceInMeter: number, speedMs: number) =>
   convertSecondsToHMS(distanceInMeter / speedMs);
 
 export function convertSpeedToPace(speedMs: number): string {
-  if (speedMs <= 0) throw new Error("Speed must be greater than 0");
+  if (speedMs <= 0) "--:--";
 
   const totalSecondsPerKm = 1000 / speedMs;
   const minutes = Math.floor(totalSecondsPerKm / 60);
@@ -49,14 +49,4 @@ export function convertSecondsToHMS(seconds: number): string {
   return `${hours > 0 ? `${hours} h` : ""} ${
     minutes > 0 ? `${minutes} min` : ""
   }  ${remainingSeconds.toFixed(1)} sec`;
-}
-export function convertHMSToSeconds(hms: string): number {
-  const parts = hms.split(":").map(Number);
-  const [hours, minutes, seconds] = parts;
-
-  if (parts.length === 2) {
-    return minutes * 60 + seconds;
-  } else {
-    return hours * 3600 + minutes * 60 + seconds;
-  }
 }

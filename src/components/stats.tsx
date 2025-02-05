@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardTitle, CardContent } from "./ui/card";
 import { Pace } from "@/types";
 
