@@ -52,12 +52,11 @@ export function convertSecondsToHMS(seconds: number): string {
 }
 export function convertHMSToSeconds(hms: string): number {
   const parts = hms.split(":").map(Number);
-
-  if (parts.length !== 3 || parts.some(isNaN)) {
-    throw new Error("Invalid time format. Expected 'hh:mm:ss'");
-  }
-
   const [hours, minutes, seconds] = parts;
 
-  return hours * 3600 + minutes * 60 + seconds;
+  if (parts.length === 2) {
+    return minutes * 60 + seconds;
+  } else {
+    return hours * 3600 + minutes * 60 + seconds;
+  }
 }
