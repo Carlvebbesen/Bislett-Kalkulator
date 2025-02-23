@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bislett Rundetidskalkulator 🏃‍♂️  
 
-## Getting Started
+Denne appen hjelper deg med å beregne tempo og hastighet når du løper runder på Bislett Stadion. Siden én runde er **546,5 meter**, kan du legge inn tiden brukt på et gitt rundeantall, og appen vil konvertere den til ulike distanser, samt vise:  
 
-First, run the development server:
+- **Tid per kilometer** ⏱️  
+- **Hastighet i km/t** 🚀  
+- **Estimerte tider for ulike distanser** 📏  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Funksjoner  
+
+- Legg inn tiden for et gitt rundeantall av **546,5m runde**
+- Endre antall runder lpt
+- Se tempoet ditt og hastigheten og estimert tid for **flere distanser**  
+
+## 🛠️ Installasjon og kjøring av appen  
+
+Dette er en **Next.js**-app som bruker **Bun** som pakkebehandler.  
+
+### Forutsetninger  
+
+Sørg for at du har Bun installert:  
+
+```sh
+curl -fsSL https://bun.sh/install | bash
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Klon og installer avhengigheter  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+git clone git@github.com:Carlvebbesen/Bislett-Kalkulator.git
+cd bislett-kalkulator
+bun i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Start utviklingsserveren  
 
-## Learn More
+```sh
+bun run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Appen vil være tilgjengelig på **http://localhost:3000**.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📜 Lisens  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+MIT-lisens – bidra gjerne!  
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Gi beskjed hvis du vil ha noen endringer! 🚀

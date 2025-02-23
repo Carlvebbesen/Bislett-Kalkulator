@@ -1,5 +1,6 @@
 "use client";
 import { BisletInput } from "@/components/bislet-input";
+import ButtonRow from "@/components/button-row";
 import { DistanceTable } from "@/components/distance-table";
 import InfoBox from "@/components/info-box";
 import Stats from "@/components/stats";
@@ -12,7 +13,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [distance, setDistance] = useState<number>(bisletRound);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(240);
 
   const pace = getPace(distance, time);
   return (
@@ -46,8 +47,10 @@ export default function Home() {
           </TabsContent>
         </Tabs>
         <TimeInput
+          currentTime={time}
           onChange={(minutes, seconds) => setTime(minutes * 60 + seconds)}
         />
+        <ButtonRow onPress={setTime} />
         <Stats distance={distance} pace={pace} />
         <DistanceTable {...pace} />
       </div>

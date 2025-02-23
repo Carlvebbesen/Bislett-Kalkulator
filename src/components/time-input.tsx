@@ -13,22 +13,26 @@ import { Card } from "./ui/card";
 
 interface TimeInputProps {
   onChange: (minutes: number, seconds: number) => void;
+  currentTime: number;
 }
 
-export default function TimeInput({ onChange }: TimeInputProps) {
-  const [minutes, setMinutes] = useState<number>(0);
-  const [seconds, setSeconds] = useState<number>(0);
-
+export default function TimeInput({ onChange, currentTime }: TimeInputProps) {
   const handleMinutesChange = (value: string) => {
     const newMinutes = parseInt(value, 10);
-    setMinutes(isNaN(newMinutes) ? 0 : Math.min(59, Math.max(0, newMinutes)));
-    onChange(newMinutes, seconds);
+    const updatedValue = isNaN(newMinutes)
+      ? 0
+      : Math.min(59, Math.max(0, newMinutes));
+    const oldSeconds = currentTime % 60;
+    onChange(updatedValue, oldSeconds);
   };
 
   const handleSecondsChange = (value: string) => {
     const newSeconds = parseInt(value, 10);
-    setSeconds(isNaN(newSeconds) ? 0 : Math.min(59, Math.max(0, newSeconds)));
-    onChange(minutes, newSeconds);
+    const updatedValue = isNaN(newSeconds)
+      ? 0
+      : Math.min(59, Math.max(0, newSeconds));
+    const oldMinutes = Math.floor(currentTime / 60);
+    onChange(oldMinutes, updatedValue);
   };
 
   const renderOptions = (max: number) => {
@@ -43,7 +47,10 @@ export default function TimeInput({ onChange }: TimeInputProps) {
     <Card className="flex gap-4 p-4 w-60 justify-center">
       <div className="flex flex-col space-y-2">
         <Label htmlFor="minutes">Minutes</Label>
-        <Select onValueChange={handleMinutesChange} value={minutes.toString()}>
+        <Select
+          onValueChange={handleMinutesChange}
+          value={Math.floor(currentTime / 60).toString()}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="00" />
           </SelectTrigger>
@@ -52,7 +59,10 @@ export default function TimeInput({ onChange }: TimeInputProps) {
       </div>
       <div className="flex flex-col space-y-2">
         <Label htmlFor="seconds">Seconds</Label>
-        <Select onValueChange={handleSecondsChange} value={seconds.toString()}>
+        <Select
+          onValueChange={handleSecondsChange}
+          value={(currentTime % 60).toString()}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="00" />
           </SelectTrigger>
