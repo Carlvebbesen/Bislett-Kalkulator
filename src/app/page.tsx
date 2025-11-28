@@ -28,7 +28,7 @@ import {
 
 export default function Home() {
   const [distance, setDistance] = useState<number>(bislettRound);
-  const [time, setTime] = useState(240);
+  const [time, setTime] = useState(131);
   const [master, setMaster] = useState<"time" | "pace">("time");
   const [masterPaceSecondsPerKm, setMasterPaceSecondsPerKm] = useState<
     number | null
