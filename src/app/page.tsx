@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock, Gauge } from "lucide-react";
 import {
   getPace,
-  convertPaceToSecondsPerKm,
   convertSecondsPerKmToPace,
   getTimeFromPace,
 } from "@/lib/calculate";
@@ -27,8 +26,8 @@ import {
 } from "@/components/ui/select";
 
 export default function Home() {
-  const [distance, setDistance] = useState<number>(bislettRound);
-  const [time, setTime] = useState(131);
+  const [distance, setDistance] = useState<number>(2 * bislettRound);
+  const [time, setTime] = useState(262);
   const [master, setMaster] = useState<"time" | "pace">("time");
   const [masterPaceSecondsPerKm, setMasterPaceSecondsPerKm] = useState<
     number | null
@@ -141,7 +140,7 @@ export default function Home() {
 
       <div className="p-4 space-y-2 md:space-y-3 flex items-center flex-col relative">
         <Tabs
-          defaultValue={distance === bislettRound ? "bislett" : "custom"}
+          defaultValue={distance % bislettRound === 0 ? "bislett" : "custom"}
           className="w-full flex flex-col items-center gap-4 md:gap-3"
         >
           <TabsList className="h-12 md:h-9 p-1.5 md:p-1">
