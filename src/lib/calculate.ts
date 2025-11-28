@@ -28,12 +28,19 @@ export const getTimeUsedDistance = (distanceInMeter: number, speedMs: number) =>
   convertSecondsToHMS(distanceInMeter / speedMs);
 
 export function convertSpeedToPace(speedMs: number): string {
-  if (speedMs <= 0) "--:--";
+  if (speedMs <= 0) return "--:--";
   const totalSecondsPerKm = 1000 / speedMs;
-  const minutes = Math.floor(totalSecondsPerKm / 60);
-  const seconds = Math.round(totalSecondsPerKm % 60);
+  const totalMinutes = Math.floor(totalSecondsPerKm / 60);
+  let seconds = Math.round(totalSecondsPerKm % 60);
 
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  // Handle rollover: if seconds round to 60, add 1 to minutes and set seconds to 0
+  if (seconds >= 60) {
+    const minutes = totalMinutes + 1;
+    seconds = 0;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }
+
+  return `${totalMinutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
 export function convertSecondsToHMS(seconds: number): string {
@@ -48,4 +55,42 @@ export function convertSecondsToHMS(seconds: number): string {
   return `${hours > 0 ? `${hours} h` : ""} ${
     minutes > 0 ? `${minutes} min` : ""
   }  ${remainingSeconds.toFixed(1)} sec`;
+}
+
+/**
+ * Converts a pace string (MM:SS) to seconds per kilometer
+ */
+export function convertPaceToSecondsPerKm(pace: string): number {
+  const [minutes, seconds] = pace.split(":").map(Number);
+  if (isNaN(minutes) || isNaN(seconds)) return 0;
+  return minutes * 60 + seconds;
+}
+
+/**
+ * Converts seconds per kilometer to a pace string (MM:SS)
+ */
+export function convertSecondsPerKmToPace(secondsPerKm: number): string {
+  if (secondsPerKm <= 0 || !isFinite(secondsPerKm)) return "00:00";
+  const totalMinutes = Math.floor(secondsPerKm / 60);
+  let seconds = Math.round(secondsPerKm % 60);
+
+  // Handle rollover: if seconds round to 60, add 1 to minutes and set seconds to 0
+  if (seconds >= 60) {
+    const minutes = totalMinutes + 1;
+    seconds = 0;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }
+
+  return `${totalMinutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+/**
+ * Calculates time in seconds for a given distance and pace
+ */
+export function getTimeFromPace(
+  distanceInMeter: number,
+  paceSecondsPerKm: number
+): number {
+  if (paceSecondsPerKm <= 0 || distanceInMeter <= 0) return 0;
+  return (distanceInMeter / 1000) * paceSecondsPerKm;
 }

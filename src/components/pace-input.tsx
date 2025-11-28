@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -11,23 +11,22 @@ import {
 import { Label } from "@/components/ui/label";
 import { Card } from "./ui/card";
 
-interface TimeInputProps {
+interface PaceInputProps {
   onChange: (minutes: number, seconds: number) => void;
-  currentTime: number;
+  currentPace: string; // Format: "MM:SS"
 }
 
-export default function TimeInput({ onChange, currentTime }: TimeInputProps) {
-  const totalMinutes = Math.floor(currentTime / 60);
-  const seconds = Math.round(currentTime % 60);
-  const minutes = totalMinutes % 60;
-  const hours = Math.floor(totalMinutes / 60);
+export default function PaceInput({ onChange, currentPace }: PaceInputProps) {
+  const [minutes, seconds] = currentPace.split(":").map(Number);
+  const currentMinutes = isNaN(minutes) ? 0 : minutes;
+  const currentSeconds = isNaN(seconds) ? 0 : seconds;
 
   const handleMinutesChange = (value: string) => {
     const newMinutes = parseInt(value, 10);
     const updatedValue = isNaN(newMinutes)
       ? 0
       : Math.min(59, Math.max(0, newMinutes));
-    onChange(updatedValue, seconds);
+    onChange(updatedValue, currentSeconds);
   };
 
   const handleSecondsChange = (value: string) => {
@@ -35,54 +34,35 @@ export default function TimeInput({ onChange, currentTime }: TimeInputProps) {
     const updatedValue = isNaN(newSeconds)
       ? 0
       : Math.min(59, Math.max(0, newSeconds));
-    onChange(minutes, updatedValue);
-  };
-
-  const handleHoursChange = (value: string) => {
-    const newHours = parseInt(value, 10);
-    const updatedHours = isNaN(newHours)
-      ? 0
-      : Math.min(23, Math.max(0, newHours));
-    // Convert hours to minutes for the onChange callback
-    const totalMins = updatedHours * 60 + minutes;
-    onChange(totalMins, seconds);
+    onChange(currentMinutes, updatedValue);
   };
 
   return (
-    <Card className="flex gap-4 p-4 w-60 justify-center">
-      <TimeInputPart
-        handleChange={handleHoursChange}
-        currentValue={hours}
-        label="Hours"
-        max={23}
-      />
-      <TimeInputPart
+    <Card className="flex gap-4 p-4 w-60 justify-center bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+      <PaceInputPart
         handleChange={handleMinutesChange}
-        currentValue={minutes}
+        currentValue={currentMinutes}
         label="Minutes"
-        max={59}
       />
-      <TimeInputPart
+      <PaceInputPart
         label="Seconds"
         handleChange={handleSecondsChange}
-        currentValue={seconds}
-        max={59}
+        currentValue={currentSeconds}
       />
     </Card>
   );
 }
-function TimeInputPart({
+
+function PaceInputPart({
   handleChange,
   currentValue,
   label,
   placeholder = "00",
-  max = 59,
 }: {
   label: string;
   placeholder?: string;
   handleChange: (value: string) => void;
   currentValue: number;
-  max?: number;
 }) {
   const renderOptions = (max: number) => {
     return Array.from({ length: max + 1 }, (_, i) => (
@@ -98,7 +78,7 @@ function TimeInputPart({
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>{renderOptions(max)}</SelectContent>
+        <SelectContent>{renderOptions(59)}</SelectContent>
       </Select>
     </div>
   );
